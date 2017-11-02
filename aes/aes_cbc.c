@@ -4,6 +4,8 @@
 //change AES type in the encrypt(char *ptext, char *key) and decrypt(char *ctext, char *key) function
 
 int s_rand=0;
+char key[16] = {1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6};
+char iv[16] = {1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6};
 
 void resetiv_outbound(char *iv) {
     memset(iv,0,16);
@@ -21,7 +23,7 @@ int random_() {
 }
 
 void populate_iv_outbound(char *iv) {
-    resetiv_outbound();
+    resetiv_outbound(iv);
     int i;
     for (i;i<16;i++) {
         iv[i] = random_();
@@ -66,7 +68,7 @@ int encrypt_cbc(char *ptext, char *iv, int msgblocks) {
             }
         }
         
-        encrypt(plainText);
+        encrypt(plainText,key);
         // WRITE PLAINTEXT TO PTEXT STARTS //
         j = 0;
         for (j=0;j<16;j++) {
@@ -92,7 +94,7 @@ int decrypt_cbc(char *ctext,char *ptext, char *iv,int msgblocks) {
          }
         // SET CIPHERTEXT ENDS //
 
-        decrypt(cipherText);
+        decrypt(cipherText,key);
 
         j=0;
         if (i==0) {
